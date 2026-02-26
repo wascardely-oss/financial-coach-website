@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Analytics } from './analytics';
 
 export const metadata: Metadata = {
   title: 'Financial Coach - Tu Coach Financiero Personal',
@@ -19,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
