@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Coach - Código Fuente Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a7ea4;
+            --primary-dark: #065a7d;
+            --secondary: #10b981;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+            --text: #1f2937;
+            --text-muted: #6b7280;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: #0f172a;
+                --surface: #1e293b;
+                --border: #334155;
+                --text: #f1f5f9;
+                --text-muted: #cbd5e1;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .file-section {
+            margin-bottom: 40px;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .file-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-name {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        pre {
+            background-color: var(--background);
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        code {
+            color: var(--text);
+        }
+
+        .toc {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .toc h2 {
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            gap: 20px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .download-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(10, 126, 164, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .toc ul {
+                columns: 1;
+            }
+
+            pre {
+                font-size: 12px;
+                padding: 16px;
+            }
+
+            .file-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Financial Coach - Código Fuente Completo</h1>
+            <p class="subtitle">Landing page de marketing para la aplicación móvil Financial Coach</p>
+        </header>
+
+        <div class="download-section">
+            <button class="download-btn" onclick="downloadAllCode()">⬇️ Descargar Todo el Código</button>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 Cómo usar este código</h3>
+            <ol style="margin-left: 20px; line-height: 1.8;">
+                <li>Copia todos los archivos a tu proyecto local</li>
+                <li>Ejecuta <code style="background: var(--surface); padding: 2px 6px; border-radius: 4px;">npm install</code></li>
+                <li>Ejecuta <code style="background: var(--surface); padding: 2px 6px; border-radius: 4px;">npm run dev</code></li>
+                <li>Abre http://localhost:3000 en tu navegador</li>
+                <li>Despliega en Vercel cuando esté listo</li>
+            </ol>
+        </div>
+
+        <div class="toc">
+            <h2>📑 Índice de Archivos</h2>
+            <ul>
+                <li><a href="#package-json">package.json</a></li>
+                <li><a href="#tsconfig-json">tsconfig.json</a></li>
+                <li><a href="#next-config">next.config.js</a></li>
+                <li><a href="#vercel-json">vercel.json</a></li>
+                <li><a href="#app-layout">app/layout.tsx</a></li>
+                <li><a href="#app-page">app/page.tsx</a></li>
+                <li><a href="#app-globals">app/globals.css</a></li>
+                <li><a href="#header-tsx">components/Header.tsx</a></li>
+                <li><a href="#hero-tsx">components/Hero.tsx</a></li>
+                <li><a href="#features-tsx">components/Features.tsx</a></li>
+                <li><a href="#pricing-tsx">components/Pricing.tsx</a></li>
+                <li><a href="#footer-tsx">components/Footer.tsx</a></li>
+            </ul>
+        </div>
+
+        <div class="file-section" id="package-json">
+            <div class="file-header">
+                <span class="file-name">package.json</span>
+                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+            </div>
+            <pre><code>{
+  "name": "financial-coach-website",
+  "version": "1.0.0",
+  "description": "Landing page for Financial Coach mobile app",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}</code></pre>
+        </div>
+
+        <div class="file-section" id="tsconfig-json">
+            <div class="file-header">
+                <span class="file-name">tsconfig.json</span>
+                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+            </div>
+            <pre><code>{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}</code></pre>
+        </div>
+
+        <div class="file-section" id="next-config">
+            <div class="file-header">
+                <span class="file-name">next.config.js</span>
+                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+            </div>
+            <pre><code>/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    unoptimized: true,
+  },
+};
+
+module.exports = nextConfig;</code></pre>
+        </div>
+
+        <div class="file-section" id="vercel-json">
+            <div class="file-header">
+                <span class="file-name">vercel.json</span>
+                <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+            </div>
+            <pre><code>{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <footer>
+            <p>© 2026 Financial Coach. Todos los derechos reservados.</p>
+            <p>Este código está listo para producción y puede desplegarse en Vercel.</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.parentElement.nextElementSibling;
+            const code = pre.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Copiado';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function downloadAllCode() {
+            const code = document.body.innerText;
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(code));
+            element.setAttribute('download', 'financial-coach-source-code.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+    </script>
+</body>
+</html>

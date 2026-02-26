@@ -1,0 +1,152 @@
+.hero {
+  padding: 80px 0;
+  background: linear-gradient(135deg, rgba(10, 126, 164, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ctaButtons button {
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.statLabel {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.heroImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phoneFrame {
+  width: 280px;
+  height: 560px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: 0 20px 60px rgba(10, 126, 164, 0.3);
+  position: relative;
+}
+
+.phoneFrame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 25px;
+  background: black;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+}
+
+.phoneScreen {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.screenContent {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0;
+  }
+
+  .heroContent {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+  }
+
+  .ctaButtons button {
+    width: 100%;
+  }
+
+  .stats {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .phoneFrame {
+    width: 240px;
+    height: 480px;
+  }
+}
