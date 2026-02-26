@@ -32,20 +32,25 @@ export default function Contact() {
     setSubmitStatus('idle');
 
     try {
-      // Aquí puedes integrar con un servicio de email como:
-      // - Formspree (https://formspree.io)
-      // - EmailJS (https://www.emailjs.com)
-      // - Tu propio backend
+      const response = await fetch('https://formspree.io/f/meelnnoj', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
 
-      // Por ahora, simulamos el envío
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      console.log('Formulario enviado:', formData);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-
-      // Limpiar mensaje después de 3 segundos
-      setTimeout(() => setSubmitStatus('idle'), 3000);
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitStatus('idle'), 3000);
+      } else {
+        throw new Error('Error en la respuesta');
+      }
     } catch (error) {
       console.error('Error al enviar:', error);
       setSubmitStatus('error');
