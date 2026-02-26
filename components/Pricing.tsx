@@ -1,4 +1,5 @@
 import styles from './Pricing.module.css';
+import SubscriptionButton from './SubscriptionButton';
 
 const plans = [
   {
@@ -13,6 +14,7 @@ const plans = [
     ],
     cta: 'Descargar Gratis',
     highlighted: false,
+    planType: null,
   },
   {
     name: 'Pro',
@@ -28,6 +30,7 @@ const plans = [
     ],
     cta: 'Suscribirse',
     highlighted: true,
+    planType: 'pro',
   },
   {
     name: 'Premium',
@@ -43,6 +46,7 @@ const plans = [
     ],
     cta: 'Suscribirse',
     highlighted: false,
+    planType: 'premium',
   },
 ];
 
@@ -73,12 +77,22 @@ export default function Pricing() {
                 <span className={styles.amount}>{plan.price}</span>
                 <span className={styles.period}>/mes</span>
               </div>
-              <button
-                className={plan.highlighted ? 'btn-primary' : 'btn-secondary'}
-                style={{ width: '100%' }}
-              >
-                {plan.cta}
-              </button>
+              
+              {plan.planType ? (
+                <SubscriptionButton
+                  planName={plan.planType as 'pro' | 'premium'}
+                  planPrice={parseFloat(plan.price)}
+                  planDescription={`Financial Coach - Plan ${plan.name}`}
+                />
+              ) : (
+                <button
+                  className={plan.highlighted ? 'btn-primary' : 'btn-secondary'}
+                  style={{ width: '100%' }}
+                >
+                  {plan.cta}
+                </button>
+              )}
+              
               <ul className={styles.features}>
                 {plan.features.map((feature, i) => (
                   <li key={i}>
