@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
 
 interface SubscriptionButtonProps {
   planName: 'pro' | 'premium';
@@ -41,27 +40,16 @@ export default function SubscriptionButton({
 
       const { sessionId } = await response.json();
 
-      // 2. Redirigir a Stripe Checkout
-      const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-      );
-
-      if (!stripe) {
-        throw new Error('Error al cargar Stripe');
-      }
-
-      const { error: stripeError } = await stripe.redirectToCheckout({
-        sessionId,
-      });
-
-      if (stripeError) {
-        throw new Error(stripeError.message);
-      }
+      // 2. Redirigir a Stripe Checkout usando la URL de sesión
+      // Construir la URL de Stripe Checkout directamente
+      const checkoutUrl = `https://checkout.stripe.com/pay/${sessionId}`;
+      
+      // Redirigir al usuario
+      window.location.href = checkoutUrl;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error desconocido';
       setError(message);
       console.error('Error:', err);
-    } finally {
       setIsLoading(false);
     }
   };
