@@ -4,10 +4,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Deshabilitar prerendering estático para evitar errores de contexto
-  experimental: {
-    isrMemoryCacheSize: 0,
-  },
 };
 
 module.exports = nextConfig;
