@@ -1,3 +1,6 @@
+'use client';
+
+import Link from 'next/link';
 import styles from './Hero.module.css';
 
 export default function Hero() {
@@ -13,8 +16,8 @@ export default function Hero() {
               Gestiona tus gastos, establece metas inteligentes y mejora tu salud financiera con la ayuda de un coach IA personalizado. Todo en una sola app.
             </p>
             <div className={styles.ctaButtons}>
-              <button className="btn-primary">Descargar en App Store</button>
-              <button className="btn-secondary">Descargar en Google Play</button>
+              <Link href="#pricing" className="btn-primary">Ver Planes de Suscripción</Link>
+              <Link href="#features" className="btn-secondary">Conocer Características</Link>
             </div>
             <div className={styles.stats}>
               <div className={styles.stat}>

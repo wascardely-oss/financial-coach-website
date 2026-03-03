@@ -1,3 +1,6 @@
+'use client';
+
+import Link from 'next/link';
 import styles from './CTA.module.css';
 
 export default function CTA() {
@@ -12,8 +15,8 @@ export default function CTA() {
             Miles de personas ya están mejorando su salud financiera. ¿Serás el próximo?
           </p>
           <div className={styles.buttons}>
-            <button className="btn-primary">Descargar en App Store</button>
-            <button className="btn-secondary">Descargar en Google Play</button>
+            <Link href="#pricing" className="btn-primary">Ver Planes de Suscripción</Link>
+            <Link href="/subscription-demo" className="btn-secondary">Prueba la Demo</Link>
           </div>
           <p className={styles.note}>
             ✓ Descarga gratuita • ✓ Sin tarjeta de crédito • ✓ Acceso inmediato
