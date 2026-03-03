@@ -39,10 +39,12 @@ export default function SubscriptionButton({
       }
 
       const { sessionId } = await response.json();
+      console.log('Sesión de Stripe creada:', sessionId);
 
       // 2. Redirigir a Stripe Checkout usando la URL de sesión
-      // Construir la URL de Stripe Checkout directamente
+      // Este es el método más confiable para Stripe Checkout
       const checkoutUrl = `https://checkout.stripe.com/pay/${sessionId}`;
+      console.log('Redirigiendo a:', checkoutUrl);
       
       // Redirigir al usuario
       window.location.href = checkoutUrl;
