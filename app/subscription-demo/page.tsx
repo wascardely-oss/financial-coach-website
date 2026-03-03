@@ -91,7 +91,9 @@ export default function SubscriptionDemoPage() {
       const data = await response.json();
       setSuccess(`✅ Sesión de Stripe creada: ${data.sessionId.substring(0, 20)}...`);
       
-      console.log('Sesión de Stripe:', data.sessionId);
+      // Redirigir a Stripe Checkout
+      const checkoutUrl = `https://checkout.stripe.com/pay/${data.sessionId}`;
+      window.location.href = checkoutUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
