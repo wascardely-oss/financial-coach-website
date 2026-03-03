@@ -1,0 +1,7 @@
+# Ignore prerendering for dynamic pages
+app/subscription-demo/**
+app/demo/**
+app/success/**
+app/cancel/**
+app/dashboard/**
+app/analytics-dashboard/**
