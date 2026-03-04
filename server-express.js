@@ -1,32 +1,29 @@
 const express = require('express');
-const { createServer } = require('http');
-const { parse } = require('url');
-const next = require('next');
 const Stripe = require('stripe');
+const path = require('path');
 
-const dev = process.env.NODE_ENV !== 'production';
-const hostname = '0.0.0.0';
-const port = parseInt(process.env.PORT || '3000', 10);
+const app = express();
+const port = process.env.PORT || 3000;
 
-// Create Express app
-const expressApp = express();
-expressApp.use(express.json());
+// Middleware
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize Stripe
+// Inicializar Stripe
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-console.log('[Server] Stripe Secret Key configured:', !!stripeSecretKey);
+console.log('Stripe Secret Key configured:', !!stripeSecretKey);
 
 const stripe = new Stripe(stripeSecretKey || '', {
   apiVersion: '2024-04-10',
 });
 
 // Health check endpoint
-expressApp.get('/api/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Debug endpoint
-expressApp.get('/api/debug', (req, res) => {
+app.get('/api/debug', (req, res) => {
   const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   res.json({
     status: 'ok',
@@ -41,12 +38,12 @@ expressApp.get('/api/debug', (req, res) => {
 });
 
 // Create checkout session endpoint
-expressApp.post('/api/create-checkout-session', async (req, res) => {
+app.post('/api/create-checkout-session', async (req, res) => {
   try {
-    console.log('[Stripe] Creating checkout session...');
+    console.log('Creating checkout session...');
     
     if (!stripeSecretKey) {
-      console.error('[Stripe] STRIPE_SECRET_KEY not configured');
+      console.error('STRIPE_SECRET_KEY not configured');
       return res.status(500).json({ error: 'Stripe not configured' });
     }
 
@@ -56,7 +53,7 @@ expressApp.post('/api/create-checkout-session', async (req, res) => {
       return res.status(400).json({ error: 'Invalid data' });
     }
 
-    console.log(`[Stripe] Creating session for plan: ${planName}, price: ${planPrice}`);
+    console.log(`Creating session for plan: ${planName}, price: ${planPrice}`);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -82,41 +79,25 @@ expressApp.post('/api/create-checkout-session', async (req, res) => {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://financial-coach-website.onrender.com'}/cancel`,
     });
 
-    console.log(`[Stripe] Session created successfully: ${session.id}`);
+    console.log(`Session created successfully: ${session.id}`);
     res.json({ sessionId: session.id });
   } catch (error) {
-    console.error('[Stripe] Error creating checkout session:', error);
+    console.error('Error creating checkout session:', error);
     const message = error instanceof Error ? error.message : 'Error creating payment session';
     res.status(500).json({ error: message });
   }
 });
 
-// Create Next.js app for frontend
-const app = next({ dev, hostname, port });
-const handle = app.getRequestHandler();
-
-app.prepare().then(() => {
-  // Delegate all other routes to Next.js
-  expressApp.all('*', (req, res) => {
-    const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
-  });
-
-  // Start server
-  const server = expressApp.listen(port, hostname, (err) => {
+// Serve Next.js static files and handle other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
     if (err) {
-      console.error('[Server] Error starting server:', err);
-      throw err;
+      res.status(404).send('Not found');
     }
-    console.log(`[Server] Ready on http://${hostname}:${port}`);
   });
+});
 
-  // Handle graceful shutdown
-  process.on('SIGTERM', () => {
-    console.log('[Server] SIGTERM received, shutting down gracefully...');
-    server.close(() => {
-      console.log('[Server] Server closed');
-      process.exit(0);
-    });
-  });
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
+  console.log(`Health check: http://0.0.0.0:${port}/api/health`);
 });
