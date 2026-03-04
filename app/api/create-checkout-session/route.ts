@@ -1,10 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+// Validar que la clave secreta de Stripe esté configurada
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+  console.error('STRIPE_SECRET_KEY no está configurada');
+}
+
+const stripe = new Stripe(stripeSecretKey || '', {
+  apiVersion: '2024-04-10',
+});
 
 export async function POST(request: NextRequest) {
   try {
+    // Validar que Stripe esté configurado
+    if (!stripeSecretKey) {
+      console.error('Error: STRIPE_SECRET_KEY no está configurada');
+      return NextResponse.json(
+        { error: 'Stripe no está configurado correctamente' },
+        { status: 500 }
+      );
+    }
+
     const { planName, planPrice, planDescription } = await request.json();
 
     // Validar datos
@@ -14,6 +31,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    console.log(`Creando sesión de Stripe para plan: ${planName}, precio: ${planPrice}`);
 
     // Crear sesión de checkout
     const session = await stripe.checkout.sessions.create({
@@ -40,11 +59,20 @@ export async function POST(request: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://financial-coach-website.onrender.com'}/cancel`,
     });
 
+    console.log(`Sesión de Stripe creada exitosamente: ${session.id}`);
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error al crear sesión de Stripe:', error);
+    
+    // Proporcionar más detalles sobre el error
+    let errorMessage = 'Error al crear sesión de pago';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      console.error('Error details:', error.message);
+    }
+    
     return NextResponse.json(
-      { error: 'Error al crear sesión de pago' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
