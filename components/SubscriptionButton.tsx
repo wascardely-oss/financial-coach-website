@@ -21,9 +21,9 @@ export default function SubscriptionButton({
     setError(null);
 
     try {
-      // Redirigir a la página de checkout
-      const checkoutUrl = `/checkout?plan=${planName}&price=${planPrice}`;
-      window.location.href = checkoutUrl;
+      // Redirigir a la página de pago
+      const paymentUrl = `/payment?plan=${planName}&price=${planPrice}`;
+      window.location.href = paymentUrl;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error desconocido';
       setError(message);
