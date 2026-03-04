@@ -21,32 +21,8 @@ export default function SubscriptionButton({
     setError(null);
 
     try {
-      // 1. Crear sesión de checkout en el servidor
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          planName,
-          planPrice,
-          planDescription,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al crear sesión de pago');
-      }
-
-      const { sessionId } = await response.json();
-      console.log('Sesión de Stripe creada:', sessionId);
-
-      // 2. Redirigir a Stripe Checkout usando la URL de sesión
-      // Este es el método más confiable para Stripe Checkout
-      const checkoutUrl = `https://checkout.stripe.com/pay/${sessionId}`;
-      console.log('Redirigiendo a:', checkoutUrl);
-      
-      // Redirigir al usuario
+      // Redirigir a la página de checkout
+      const checkoutUrl = `/checkout?plan=${planName}&price=${planPrice}`;
       window.location.href = checkoutUrl;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error desconocido';
