@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 
 interface SubscriptionButtonProps {
   planName: 'pro' | 'premium';
@@ -21,9 +22,39 @@ export default function SubscriptionButton({
     setError(null);
 
     try {
-      // Redirigir a la página de pago
-      const paymentUrl = `/payment?plan=${planName}&price=${planPrice}`;
-      window.location.href = paymentUrl;
+      // Llamar al endpoint para crear una sesión de Stripe
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planName,
+          planPrice,
+          planDescription,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al crear sesión de pago');
+      }
+
+      const { sessionId } = await response.json();
+
+      // Redirigir a Stripe Checkout
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      if (!stripe) {
+        throw new Error('No se pudo cargar Stripe');
+      }
+
+      const { error: stripeError } = await stripe.redirectToCheckout({
+        sessionId,
+      });
+
+      if (stripeError) {
+        throw new Error(stripeError.message || 'Error al redirigir a Stripe');
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error desconocido';
       setError(message);
