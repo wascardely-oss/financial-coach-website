@@ -1,6 +1,6 @@
 {
   "buildCommand": "echo 'Build complete'",
-  "devCommand": "node app.js",
+  "devCommand": "node server-final.js",
   "installCommand": "npm install",
   "framework": null,
   "env": {

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Landing page for Financial Coach mobile app",
   "private": true,
-  "main": "app.js",
+  "main": "server-final.js",
   "scripts": {
-    "dev": "node app.js",
+    "dev": "node server-final.js",
     "build": "echo 'Build complete'",
-    "start": "node app.js"
+    "start": "node server-final.js"
   },
   "dependencies": {},
   "devDependencies": {}
