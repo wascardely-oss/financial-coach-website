@@ -3,15 +3,12 @@
   "version": "1.0.0",
   "description": "Landing page for Financial Coach mobile app",
   "private": true,
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "node app.js",
     "build": "echo 'Build complete'",
-    "start": "node index.js"
+    "start": "node app.js"
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "stripe": "^20.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }
